@@ -84,7 +84,7 @@ echo "Copying data from ISO to destination"
 rsync -a /tmp/mountA/ /tmp/mountB
 echo "Syncing device"
 sync ${dev}
-echo "Cleaning up"
 umount /tmp/mountA /tmp/mountB
+echo "Cleaning up"
 rm -rf /tmp/mountA /tmp/mountB
 echo "Your Windows USB is now ready for use"
