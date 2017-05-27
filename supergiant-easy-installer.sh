@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-#!/bin/bash
-
 sendHelp() {
     echo "Supergiant Easy Installer by Matthew Spurrier (github.com/digitalsparky)"
     echo
@@ -47,9 +45,9 @@ echo "Installation Path: $SGPATH"
 echo "FQDN: $FQDN"
 echo "EMAIL: $EMAIL"
 
-echo 
+echo
 echo "Please ensure you have $FQDN pointing to this servers IP address"
-echo 
+echo
 echo "You'll also need to add a TXT record for letsencrypt verification as part of this installation process"
 echo
 
