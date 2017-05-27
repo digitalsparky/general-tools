@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-DEBIAN_FRONTEND=noninteractive
 
 sendHelp() {
     echo "Supergiant Easy Installer by Matthew Spurrier (github.com/digitalsparky)"
@@ -57,7 +56,6 @@ echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 fi
-
 
 apt -q update
 apt -yq upgrade
