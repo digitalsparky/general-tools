@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-#!/bin/bash
-
 sendHelp() {
     echo "Supergiant Easy Installer by Matthew Spurrier (github.com/digitalsparky)"
     echo
