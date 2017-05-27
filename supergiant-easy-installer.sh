@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+DEBIAN_FRONTEND=noninteractive
 
 sendHelp() {
     echo "Supergiant Easy Installer by Matthew Spurrier (github.com/digitalsparky)"
@@ -51,7 +52,7 @@ echo
 echo "You'll also need to add a TXT record for letsencrypt verification as part of this installation process"
 echo
 
-read -p "Are you sure you want to proceed? " -n 1 -r
+read -p "Are you sure you want to proceed? (y/n): " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
@@ -187,7 +188,7 @@ stopwaitsecs=10
 redirect_stderr=true
 EOF
 
-rm -f /etc/supervisor/conf.d/supergiant > /dev/null 2>&1
+rm -f /etc/supervisor/conf.d/supergiant.conf > /dev/null 2>&1
 rm -f /etc/logrotate.d/supergiant > /dev/null 2>&1
 ln -s $SGPATH/etc/supervisor.conf /etc/supervisor/conf.d/supergiant.conf
 ln -s $SGPATH/etc/logrotate.conf /etc/logrotate.d/supergiant
@@ -196,7 +197,7 @@ curl -sL -o $SGPATH/bin/supergiant https://github.com/supergiant/supergiant/rele
 chmod a+x $SGPATH/bin/supergiant
 
 echo "Initiating letsencrypt to get SSL certificate for $FQDN"
-/usr/bin/certbot-auto certonly --manual --agree-tos -m $EMAIL --rsa-key-size 4096 --preferred-challenges dns -d $FQDN
+/usr/bin/certbot-auto certonly --manual -m $EMAIL --rsa-key-size 4096 --preferred-challenges dns -d $FQDN
 
 cat <<EOF > /etc/cron.d/certbot-auto
 0,12 * * * * /usr/bin/certbot-auto renew
