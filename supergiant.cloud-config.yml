@@ -1,0 +1,477 @@
+#cloud-config
+
+apt:
+  sources:
+    nginx.list:
+      source: "ppa:nginx/stable"
+
+    pgdg.list:
+      source: "deb http://apt.postgresql.org/pub/repos/apt/ $RELEASE-pgdg main"
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+        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
+        =DA1T
+        -----END PGP PUBLIC KEY BLOCK-----
+
+package_update: true
+package_upgrade: true
+
+groups:
+  - supergiant
+
+users:
+  - name: supergiant
+    primary-group: supergiant
+
+packages:
+  - jq
+  - postgresql-9.6
+  - postgresql-client-9.6
+  - nginx-extras
+  - ufw
+  - fail2ban
+
+write_files:
+  - path: /etc/ssh/sshd_config
+    permissions: 0644
+    owner: root:root
+    content: |
+      Port 22
+      Protocol 2
+      HostKey /etc/ssh/ssh_host_rsa_key
+      HostKey /etc/ssh/ssh_host_dsa_key
+      HostKey /etc/ssh/ssh_host_ecdsa_key
+      HostKey /etc/ssh/ssh_host_ed25519_key
+      UsePrivilegeSeparation yes
+      KeyRegenerationInterval 3600
+      ServerKeyBits 1024
+      SyslogFacility AUTH
+      LogLevel INFO
+      LoginGraceTime 120
+      PermitRootLogin yes
+      StrictModes yes
+      RSAAuthentication yes
+      PubkeyAuthentication yes
+      IgnoreRhosts yes
+      RhostsRSAAuthentication no
+      HostbasedAuthentication no
+      PermitEmptyPasswords no
+      ChallengeResponseAuthentication no
+      X11Forwarding yes
+      X11DisplayOffset 10
+      PrintMotd no
+      PrintLastLog yes
+      TCPKeepAlive yes
+      AcceptEnv LANG LC_*
+      Subsystem sftp /usr/lib/openssh/sftp-server
+      UsePAM yes
+
+  - path: /etc/nginx/nginx.conf
+    permissions: 0644
+    owner: root:root
+    content: |
+      include "/etc/nginx/modules-enabled/*.conf";
+      user www-data www-data;
+      worker_processes 4;
+      pid /var/run/nginx.pid;
+      worker_rlimit_nofile 40000;
+      events {
+        use epoll;
+        multi_accept on;
+        worker_connections 20000;
+      }
+      http {
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 15;
+        types_hash_max_size 2048;
+        server_tokens off;
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log info;
+        client_max_body_size 100m;
+        client_body_buffer_size 100m;
+        gzip on;
+        gzip_min_length 1400;
+        gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 9;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+        reset_timedout_connection on;
+        map $http_x_forwarded_proto $fehttps {
+          default off;
+          https on;
+        }
+        server {
+          listen 80;
+          server_name %%HOSTNAME%%;
+          location /.well-known/acme-challenge {
+            root /var/www/letsencrypt-verify/;
+          }
+          location / {
+            rewrite ^/(.*)$ https://%%HOSTNAME%%/$1 permanent;
+          }
+        }
+        include "/etc/nginx/supergiant-ssl.conf";
+      }
+
+  - path: /etc/nginx/supergiant-ssl.conf
+    permissions: 0644
+    owner: root:root
+    content: ""
+
+  - path: /etc/logrotate.d/supergiant
+    content: |
+      /var/log/supergiant/main.log
+      {
+        rotate 4
+        weekly
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+      }
+
+  - path: /etc/supergiant/config.json
+    permissions: 0644
+    owner: root:root
+    content: |
+      {
+        "psql_host": "localhost",
+        "psql_db": "supergiant",
+        "psql_user": "supergiant",
+        "psql_pass": "supergiant",
+        "ui_enabled": true,
+        "capacity_service_enabled": true,
+        "publish_host": "%%HOSTNAME%%",
+        "http_port": "8080",
+        "log_file": "/var/log/supergiant.log",
+        "log_level": "info",
+        "node_sizes": {
+          "aws": [
+            {"name": "t2.nano", "ram_gib": 0.5, "cpu_cores": 1},
+            {"name": "t2.micro", "ram_gib": 1, "cpu_cores": 1},
+            {"name": "t1.micro", "ram_gib": 0.613, "cpu_cores": 1},
+            {"name": "t2.small", "ram_gib": 2, "cpu_cores": 1},
+            {"name": "m1.small", "ram_gib": 1.7, "cpu_cores": 1},
+            {"name": "t2.medium", "ram_gib": 4, "cpu_cores": 2},
+            {"name": "m3.medium", "ram_gib": 3.75, "cpu_cores": 1},
+            {"name": "m1.medium", "ram_gib": 3.75, "cpu_cores": 1},
+            {"name": "t2.large", "ram_gib": 8, "cpu_cores": 2},
+            {"name": "c3.large", "ram_gib": 3.75, "cpu_cores": 2},
+            {"name": "c4.large", "ram_gib": 3.75, "cpu_cores": 2},
+            {"name": "m4.large", "ram_gib": 8, "cpu_cores": 2},
+            {"name": "c1.medium", "ram_gib": 1.7, "cpu_cores": 2},
+            {"name": "m3.large", "ram_gib": 7.5, "cpu_cores": 2},
+            {"name": "r3.large", "ram_gib": 15.25, "cpu_cores": 2},
+            {"name": "m1.large", "ram_gib": 7.5, "cpu_cores": 2},
+            {"name": "c4.xlarge", "ram_gib": 7.5, "cpu_cores": 4},
+            {"name": "c3.xlarge", "ram_gib": 7.5, "cpu_cores": 4},
+            {"name": "m4.xlarge", "ram_gib": 16, "cpu_cores": 4},
+            {"name": "m2.xlarge", "ram_gib": 17.1, "cpu_cores": 2},
+            {"name": "m3.xlarge", "ram_gib": 15, "cpu_cores": 4},
+            {"name": "r3.xlarge", "ram_gib": 30.5, "cpu_cores": 4},
+            {"name": "m1.xlarge", "ram_gib": 15, "cpu_cores": 4},
+            {"name": "c4.2xlarge", "ram_gib": 15, "cpu_cores": 8},
+            {"name": "c3.2xlarge", "ram_gib": 15, "cpu_cores": 8},
+            {"name": "m4.2xlarge", "ram_gib": 32, "cpu_cores": 8},
+            {"name": "m2.2xlarge", "ram_gib": 34.2, "cpu_cores": 4},
+            {"name": "c1.xlarge", "ram_gib": 7, "cpu_cores": 8},
+            {"name": "m3.2xlarge", "ram_gib": 30, "cpu_cores": 8},
+            {"name": "g2.2xlarge", "ram_gib": 15, "cpu_cores": 8},
+            {"name": "r3.2xlarge", "ram_gib": 61, "cpu_cores": 8},
+            {"name": "d2.xlarge", "ram_gib": 30.5, "cpu_cores": 4},
+            {"name": "c4.4xlarge", "ram_gib": 30, "cpu_cores": 16},
+            {"name": "c3.4xlarge", "ram_gib": 30, "cpu_cores": 16},
+            {"name": "i2.xlarge", "ram_gib": 30.5, "cpu_cores": 4},
+            {"name": "m4.4xlarge", "ram_gib": 64, "cpu_cores": 16},
+            {"name": "m2.4xlarge", "ram_gib": 68.4, "cpu_cores": 8},
+            {"name": "r3.4xlarge", "ram_gib": 122, "cpu_cores": 16},
+            {"name": "d2.2xlarge", "ram_gib": 61, "cpu_cores": 8},
+            {"name": "c4.8xlarge", "ram_gib": 60, "cpu_cores": 36},
+            {"name": "c3.8xlarge", "ram_gib": 60, "cpu_cores": 32},
+            {"name": "i2.2xlarge", "ram_gib": 61, "cpu_cores": 8},
+            {"name": "cc2.8xlarge", "ram_gib": 60.5, "cpu_cores": 32},
+            {"name": "cg1.4xlarge", "ram_gib": 22.5, "cpu_cores": 16},
+            {"name": "m4.10xlarge", "ram_gib": 160, "cpu_cores": 40},
+            {"name": "g2.8xlarge", "ram_gib": 60, "cpu_cores": 32},
+            {"name": "r3.8xlarge", "ram_gib": 244, "cpu_cores": 32},
+            {"name": "d2.4xlarge", "ram_gib": 122, "cpu_cores": 16},
+            {"name": "hi1.4xlarge", "ram_gib": 60.5, "cpu_cores": 16},
+            {"name": "i2.4xlarge", "ram_gib": 122, "cpu_cores": 16},
+            {"name": "cr1.8xlarge", "ram_gib": 244, "cpu_cores": 32},
+            {"name": "hs1.8xlarge", "ram_gib": 117, "cpu_cores": 16},
+            {"name": "d2.8xlarge", "ram_gib": 244, "cpu_cores": 36},
+            {"name": "i2.8xlarge", "ram_gib": 244, "cpu_cores": 32}
+          ],
+          "digitalocean": [
+            {"name": "512mb", "ram_gib": 0.5, "cpu_cores": 1},
+            {"name": "1gb", "ram_gib": 1, "cpu_cores": 1},
+            {"name": "2gb", "ram_gib": 2, "cpu_cores": 2},
+            {"name": "4gb", "ram_gib": 4, "cpu_cores": 2},
+            {"name": "8gb", "ram_gib": 8, "cpu_cores": 4},
+            {"name": "16gb", "ram_gib": 16, "cpu_cores": 8},
+            {"name": "32gb", "ram_gib": 32, "cpu_cores": 12},
+            {"name": "48gb", "ram_gib": 48, "cpu_cores": 16},
+            {"name": "64gb", "ram_gib": 64, "cpu_cores": 20}
+          ],
+          "gce": [
+            {"name": "n1-standard-1", "ram_gib": 3.75, "cpu_cores": 1},
+            {"name": "n1-standard-2", "ram_gib": 7.5, "cpu_cores": 2},
+            {"name": "n1-standard-4", "ram_gib": 15, "cpu_cores": 4},
+            {"name": "n1-standard-8", "ram_gib": 30, "cpu_cores": 8}
+          ]
+        }
+      }
+
+  - path: /etc/cron.d/certbot-auto
+    permissions: 0755
+    owner: root:root
+    content: |
+      0,12 * * * * /usr/bin/certbot-auto renew
+
+  - path: /var/log/supergiant.log
+    permissions: 0644
+    owner: root:root
+    content: ""
+
+  - path: /etc/systemd/system/supergiant.service
+    permissions: 0644
+    owner: root:root
+    content: |
+      [Unit]
+      Description=Supergiant Server
+      After=syslog.target
+      After=network.target
+      After=postgresql.service
+      [Service]
+      User=supergiant
+      Group=supergiant
+      ExecStart=/usr/bin/supergiant --config-file /etc/supergiant/config.json
+      Restart=on-abort
+      [Install]
+      WantedBy=multi-user.target
+
+  - path: /usr/bin/sg-startup
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/bash
+      set -e
+      if [ -f /opt/.supergiant-pre-setup ]; then
+        echo "Welcome to your new SuperGiant server"
+        echo "Your temporary credentials are as follows:"
+        grep "supergiant\[" /var/log/syslog | cut -d" " -f6- | grep -i USERNAME:
+        echo "Please note down these credentials and change them after setup is complete."
+        echo
+        echo "Please ensure your %%HOSTNAME%% points to the server's IP, so we can configure SSL via LetsEncrypt!"
+        read -p "When you're ready, press enter, or control+c to cancel"
+
+        /usr/bin/certbot-auto certonly --webroot -w /var/www/letsencrypt-verify -d %%HOSTNAME%%
+        cat <<EOF > /etc/nginx/supergiant-ssl.conf
+      server {
+        listen 443;
+        server_name %%HOSTNAME%%;
+        ssl                         on;
+        ssl_protocols TLSv1.1 TLSv1.2;
+        ssl_ciphers "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
+        ssl_dhparam /etc/nginx/dhparam.pem;
+        ssl_prefer_server_ciphers   on;
+        ssl_session_cache           shared:SSL:128m;
+        ssl_session_timeout         10m;
+        ssl_stapling on;
+        ssl_stapling_verify off;
+        ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+        resolver 8.8.8.8 8.8.4.4 valid=300s;
+        resolver_timeout 10s;
+
+        ssl_certificate /etc/letsencrypt/live/%%HOSTNAME%%/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/%%HOSTNAME%%/privkey.pem;
+
+        location /.well-known/acme-challenge {
+          root /var/www/letsencrypt-verify/;
+        }
+
+        location / {
+          proxy_pass                  http://127.0.0.1:8080;
+          proxy_buffering             on;
+          proxy_connect_timeout       600;
+          proxy_send_timeout          600;
+          proxy_read_timeout          600;
+          send_timeout                600;
+          proxy_buffer_size           2m;
+          proxy_buffers               32 4m;
+          proxy_busy_buffers_size     8m;
+          proxy_temp_file_write_size  8m;
+          proxy_set_header            X-Real-IP               \$remote_addr;
+          proxy_next_upstream         error timeout invalid_header http_500 http_502 http_503 http_504;
+          proxy_set_header            Host                    \$host;
+          proxy_hide_header           X-Powered-By;
+          proxy_hide_header           Vary;
+          proxy_hide_header           X-Frame-Options;
+          proxy_hide_header           X-Content-Type-Options;
+          proxy_hide_header           Strict-Transport-Security;
+          proxy_set_header            Front-End-Https         on;
+          proxy_set_header            X-Forwarded-Proto       https;
+          proxy_set_header            Proxy         "";
+          proxy_redirect              off;
+          proxy_http_version          1.1;
+          proxy_set_header            upgrade                 \$http_upgrade;
+          proxy_set_header            Connection              "upgrade";
+        }
+      }
+      EOF
+        service nginx restart
+        rm -f /opt/.supergiant-pre-setup
+      fi
+
+  - path: /etc/fail2ban/jail.local
+    permissions: 0644
+    owner: root:root
+    content: |
+      [ssh]
+      enabled  = true
+      port     = ssh
+      filter   = sshd
+      logpath  = /var/log/auth.log
+      maxretry = 6
+      banaction = hostsdeny_sshd
+
+      [ssh-ddos]
+      enabled  = true
+      port     = ssh
+      filter   = sshd-ddos
+      logpath  = /var/log/auth.log
+      maxretry = 6
+      banaction = hostsdeny_sshd
+
+  - path: /etc/fail2ban/action.d/hostsdeny_sshd.conf
+    permissions: 0644
+    owner: root:root
+    content: |
+      [Definition]
+      actionstart =
+      actionstop =
+      actioncheck =
+      actionban = IP=<ip> &&
+                  printf %%b "sshd: $IP\n" >> <file>
+      actionunban = IP=<ip> && sed -i.old /sshd:\ $IP/d <file>
+      [Init]
+      file = /etc/hosts.deny
+
+  - path: /opt/configure.sh
+    permissions: 0755
+    owner: root:root
+    content: |
+      #!/bin/bash
+      set -e
+      echo y | ufw enable
+      ufw allow 80
+      ufw allow 443
+      ufw allow 22
+      files="/etc/nginx/nginx.conf /etc/supergiant/config.json /usr/bin/sg-startup"
+      for file in $files; do
+        sed -i -e "s/%%HOSTNAME%%/$(hostname -f)/g" $file
+      done
+
+      LATEST_BINARY=$(curl -Ls https://api.github.com/repos/supergiant/supergiant/releases/latest | jq -r '.assets[].browser_download_url' | grep supergiant-server-linux-amd64)
+      curl -sL -o /usr/bin/supergiant $LATEST_BINARY
+      chmod a+x /usr/bin/supergiant
+      curl -o /usr/bin/certbot-auto https://dl.eff.org/certbot-auto
+      chmod a+x /usr/bin/certbot-auto
+      sudo -u postgres psql -c "CREATE ROLE supergiant WITH LOGIN PASSWORD 'supergiant'"
+      sudo -u postgres createdb -E UTF8 -O supergiant supergiant
+      echo "/usr/bin/sg-startup" >> /etc/bash.bashrc
+      chown supergiant:supergiant /var/log/supergiant.log
+      touch /opt/.supergiant-pre-setup
+      mkdir -p /var/www/letsencrypt-verify
+      openssl dhparam -out /etc/nginx/dhparam.pem 2048
+
+runcmd:
+  - [ /opt/configure.sh ]
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, enable, supergiant.service ]
+  - [ rm, -f, /opt/configure.sh ]
+
+power_state:
+  message: Rebooting
+  mode: reboot
