@@ -59,7 +59,13 @@ fi
 
 apt -q update
 apt -yq upgrade
-apt -yq install supervisor
+apt -yq install supervisor jq
+
+LATEST_BINARY=$(curl -Ls https://api.github.com/repos/supergiant/supergiant/releases/latest | jq -r '.assets[].browser_download_url' | grep supergiant-server-linux-amd64)
+if [ $? -gt 0 ]; then
+	echo "Oops! Failed to get latest binary URL from GitHub"
+	exit 1
+fi
 
 curl -o /usr/bin/certbot-auto https://dl.eff.org/certbot-auto
 chmod a+x /usr/bin/certbot-auto
@@ -191,7 +197,7 @@ rm -f /etc/logrotate.d/supergiant > /dev/null 2>&1
 ln -s $SGPATH/etc/supervisor.conf /etc/supervisor/conf.d/supergiant.conf
 ln -s $SGPATH/etc/logrotate.conf /etc/logrotate.d/supergiant
 
-curl -sL -o $SGPATH/bin/supergiant https://github.com/supergiant/supergiant/releases/download/v0.14.3/supergiant-server-linux-amd64
+curl -sL -o $SGPATH/bin/supergiant $LATEST_BINARY
 chmod a+x $SGPATH/bin/supergiant
 
 echo "Initiating letsencrypt to get SSL certificate for $FQDN"
